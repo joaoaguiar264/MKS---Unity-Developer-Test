@@ -65,10 +65,18 @@ public class Player : MonoBehaviour
     public void TakeDamage()
     {
         health -= 1;
+        StartCoroutine(ExplodeAnim());
         if (health <= 0)
         {
             StartCoroutine(Death());
         }
+
+    }
+    IEnumerator ExplodeAnim()
+    {
+        explode.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        explode.SetActive(false);
     }
 
     IEnumerator Death()

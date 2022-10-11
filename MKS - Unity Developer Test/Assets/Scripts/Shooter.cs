@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
-    [SerializeField] private GameObject shooter, explode, cannonBall, frontalCannon, hpBar;
+    [SerializeField] private GameObject shooter, explode, cannonBall, frontalCannon, hpBar, cannon;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private float moveSpeed, frontalCD, ballForce, health = 3;
     private Vector3 localScale;
@@ -100,6 +100,7 @@ public class Shooter : MonoBehaviour
     public void TakeDamage()
     {
         health -= 1;
+        StartCoroutine(ExplodeAnim());
         if (health <= 0)
         {
             GameManager.score += 1;
@@ -108,8 +109,16 @@ public class Shooter : MonoBehaviour
         }
     }
 
+    IEnumerator ExplodeAnim()
+    {
+        explode.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        explode.SetActive(false);
+    }
+
     public void Death()
     {
+        cannon.SetActive(false);
         gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
         health = 0;
         explode.SetActive(true);

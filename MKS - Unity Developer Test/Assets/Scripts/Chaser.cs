@@ -69,12 +69,20 @@ public class Chaser : MonoBehaviour
     public void TakeDamage()
     {
         health -= 1;
+        StartCoroutine(ExplodeAnim());
         if (health <= 0)
         {
             GameManager.score += 1;
             fadeOut = true;
             Death();
         }
+    }
+
+    IEnumerator ExplodeAnim()
+    {
+        explode.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        explode.SetActive(false);
     }
 
     public void Hit()
